@@ -288,10 +288,10 @@ body.editing .pi:hover .ph-del{display:block;}
     <p class="ct-lbl">Contact</p>
     <h2 class="ct-t">Travaillons<br><em>ensemble</em></h2>
     <div class="cinfo">
-      <div><div class="crow-lbl">Email</div><div class="crow-val"><a href="/cdn-cgi/l/email-protection#1069716363797e7d7f64797f7e2750777d71797c3e737f7d"><span class="__cf_email__" data-cfemail="572e3624243e393a38233e38396017303a363e3b7934383a">[email&#160;protected]</span></a></div></div>
-      <div><div class="crow-lbl">Téléphone</div><div class="crow-val"><a href="tel:0644032219">06 44 03 22 19</a></div></div>
-      <div><div class="crow-lbl">Localisation</div><div class="crow-val">Massy (91) — Île-de-France</div></div>
-      <div><div class="crow-lbl">Instagram</div><div class="crow-val"><a href="https://instagram.com/yassin_motion" target="_blank">@yassin_motion</a></div></div>
+      <div><div class="crow-lbl">Email</div><div class="crow-val"><a id="ct-email-link" href="mailto:yassinmotion7@gmail.com"><span data-e data-type="email" contenteditable="false">yassinmotion7@gmail.com</span></a></div></div>
+      <div><div class="crow-lbl">Téléphone</div><div class="crow-val"><a id="ct-tel-link" href="tel:0644032219"><span data-e data-type="tel" contenteditable="false">06 44 03 22 19</span></a></div></div>
+      <div><div class="crow-lbl">Localisation</div><div class="crow-val"><span data-e contenteditable="false">Massy (91) — Île-de-France</span></div></div>
+      <div><div class="crow-lbl">Instagram</div><div class="crow-val"><a id="ct-ig-link" href="https://instagram.com/yassin_motion" target="_blank"><span data-e data-type="instagram" contenteditable="false">@yassin_motion</span></a></div></div>
       <div><div class="crow-lbl">Statut</div><div class="crow-val" style="font-size:12px;color:var(--wh2);">Micro-entrepreneur — TVA non applicable (art. 293 B CGI)</div></div>
     </div>
   </div>
@@ -519,7 +519,30 @@ function saveAll(){
     clone.querySelectorAll('.ph-del').forEach(b=>b.remove());
     return{src:p.querySelector('img').src,s:p.dataset.s,cap:p.dataset.cap,sport:p.querySelector('.psport').textContent,label:p.querySelector('.pcap').textContent};
   });
-  localStorage.setItem(SK,JSON.stringify(d));showMsg('Sauvegardé ✓');
+  updateContactLinks();localStorage.setItem(SK,JSON.stringify(d));showMsg('Sauvegardé ✓');
+}
+
+
+// Update contact links when edited
+function updateContactLinks(){
+  const emailSpan=document.querySelector('[data-type="email"]');
+  const telSpan=document.querySelector('[data-type="tel"]');
+  const igSpan=document.querySelector('[data-type="instagram"]');
+  if(emailSpan){
+    const emailLink=document.getElementById('ct-email-link');
+    if(emailLink)emailLink.href='mailto:'+emailSpan.textContent.trim();
+  }
+  if(telSpan){
+    const telLink=document.getElementById('ct-tel-link');
+    if(telLink)telLink.href='tel:'+telSpan.textContent.trim().replace(/\s/g,'');
+  }
+  if(igSpan){
+    const igLink=document.getElementById('ct-ig-link');
+    if(igLink){
+      const handle=igSpan.textContent.trim().replace('@','');
+      igLink.href='https://instagram.com/'+handle;
+    }
+  }
 }
 
 function loadSaved(){
